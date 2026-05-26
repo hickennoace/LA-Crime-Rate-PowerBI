@@ -1,4 +1,4 @@
-# L.A. Crime Rate -> Power BI Report
+# L.A. Crime Rate - Power BI Report
 
 An interactive Power BI report analysing **852,950 LAPD reported incidents** from 2020-01-01 through 2023-12-04 (2023 is a partial year).
 
@@ -6,36 +6,36 @@ An interactive Power BI report analysing **852,950 LAPD reported incidents** fro
 
 | Field | Detail |
 |---|---|
-| Source | LAPD Open Data -> *Crime Data from 2020 to Present* |
+| Source | LAPD Open Data - *Crime Data from 2020 to Present* |
 | File | `Crime_Data_from_2020_to_Present.csv` |
 | Rows | ~852,950 |
 | Date range | 2020-01-01 → 2023-12-04 |
 
 ## Report Pages
 
-### Page 1 -> Executive Overview
+### Page 1 - Executive Overview
 High-level KPIs and crime trends across the full dataset.
 - **Cards:** Total Crimes · Crimes YoY · Avg Crimes/Day · Top Weapon
 - **Charts:** Crimes per Year · Crimes per Month
 - **Slicers:** Year · Quarter
 - **Donut:** Part 1 vs Part 2 severity split
 
-### Page 2 -> Geographic & Operational
+### Page 2 - Geographic & Operational
 Where crimes happen across LAPD divisions.
 - **Bar:** Crimes by LAPD Division
 - **Bar:** Crimes by Premise
 - **Heatmap:** Hour × Weekday matrix (conditional formatting)
 - **Slicer:** Year
 
-### Page 3 -> Deep Dive
+### Page 3 - Deep Dive
 Weapons, severity, victim descent, and reporting quality.
-- **Bar:** Top Weapons (cleaned -> excludes unknowns)
+- **Bar:** Top Weapons (cleaned - excludes unknowns)
 - **Area:** Severity over time (Part 1 vs Part 2)
 - **Donut:** Victim Descent
 - **Column:** Victim Age Bands
 - **Cards:** Avg Reporting Lag · Crimes Reported Late (>30 days)
 
-### Page 4 -> Victim Demographics
+### Page 4 - Victim Demographics
 Who the victims are.
 - **Cards:** Total Crimes · Avg Victim Age · Victims with Known Age
 - **Bar:** Crimes by Victim Sex (M = Male, F = Female)
@@ -43,7 +43,7 @@ Who the victims are.
 - **Bar:** Crimes by Victim Descent
 - **Slicer:** Year
 
-### Page 5 -> Time Patterns
+### Page 5 - Time Patterns
 When crimes happen.
 - **Cards:** Avg Crimes per Day · Avg Crimes per Month
 - **Column:** Crimes by Hour of Day (0–23)
@@ -51,14 +51,14 @@ When crimes happen.
 - **Column:** Crimes by Month
 - **Slicer:** Year
 
-### Page 6 -> Crime Type Breakdown
+### Page 6 - Crime Type Breakdown
 What types of crimes are being committed.
 - **Cards:** Total Crimes · Part 1 Crimes · Part 1 Share
 - **Bar:** Top Crime Types by Incident Count
 - **Donut:** Part 1 vs Part 2 Severity Split
 - **Slicers:** Year · LAPD Division
 
-### Page 7 -> Status & Investigation
+### Page 7 - Status & Investigation
 Case outcomes and reporting quality.
 - **Cards:** Total Crimes · Still Under Investigation · Arrest Rate · Avg Reporting Lag
 - **Bar:** Crimes by Case Status (IC / AA / JA / AO / JO)
@@ -105,7 +105,7 @@ The `crime` table is loaded from the CSV via a multi-step M script ([`01_PowerQu
 
 ## How to Open
 
-### Step 1 -> Get the data file
+### Step 1 - Get the data file
 
 The source CSV (`Crime_Data_from_2020_to_Present.csv`) is **not included in this repo** because it is 192 MB. Download it using the provided script:
 
@@ -113,13 +113,13 @@ The source CSV (`Crime_Data_from_2020_to_Present.csv`) is **not included in this
 py download_data.py
 ```
 
-This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 -> no additional libraries needed.
+This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 - no additional libraries needed.
 
 > **Prefer not to run a script?** Download the file manually from the LAPD Open Data portal:
 > [https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
 > Place the downloaded file in the root of this folder as `Crime_Data_from_2020_to_Present.csv`. The Python script above does exactly this automatically.
 
-### Step 2 -> Open the report
+### Step 2 - Open the report
 
 1. Install [Power BI Desktop](https://powerbi.microsoft.com/desktop/)
 2. Open `L.A_Crime_Rate.pbip`
