@@ -105,12 +105,25 @@ The `crime` table is loaded from the CSV via a multi-step M script ([`01_PowerQu
 
 ## How to Open
 
-1. Install [Power BI Desktop](https://powerbi.microsoft.com/desktop/)
-2. Clone or download this repository
-3. Open `L.A_Crime_Rate.pbip`
-4. Power BI will load the semantic model and all 7 report pages automatically
+### Step 1 — Get the data file
 
-> **Note:** The CSV data file path is hardcoded in Power Query. If you move the folder, update the path in Power Query Editor → `crime` query → step `Source`.
+The source CSV (`Crime_Data_from_2020_to_Present.csv`) is **not included in this repo** because it is 192 MB. Download it using the provided script:
+
+```bash
+python download_data.py
+```
+
+This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 and the `requests` library (`pip install requests`).
+
+> Alternatively, download it manually from the [LAPD Open Data portal](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8) and place it in the root of this folder as `Crime_Data_from_2020_to_Present.csv`.
+
+### Step 2 — Open the report
+
+1. Install [Power BI Desktop](https://powerbi.microsoft.com/desktop/)
+2. Open `L.A_Crime_Rate.pbip`
+3. Power BI will load the semantic model and all 7 report pages automatically
+
+> **Note:** The CSV path is hardcoded in Power Query. If you place the file somewhere other than the repo root, update it in Power Query Editor → `crime` query → step `Source`.
 
 ## Project Structure
 
