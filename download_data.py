@@ -5,15 +5,25 @@ and saves it to the same folder as this script.
 Usage:
     python download_data.py
 
-Requirements:
-    pip install requests
+No external libraries required — uses Python's built-in urllib.
 """
 
 import os
-import requests
+import urllib.request
 
 URL = "https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD"
 OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Crime_Data_from_2020_to_Present.csv")
+
+
+def progress(block_num, block_size, total_size):
+    downloaded = block_num * block_size
+    if total_size > 0:
+        pct = min(downloaded / total_size * 100, 100)
+        mb_done = downloaded / 1_000_000
+        mb_total = total_size / 1_000_000
+        print(f"\r  {pct:.1f}%  ({mb_done:.1f} MB / {mb_total:.1f} MB)", end="", flush=True)
+    else:
+        print(f"\r  {downloaded / 1_000_000:.1f} MB downloaded...", end="", flush=True)
 
 
 def download():
@@ -23,20 +33,9 @@ def download():
         return
 
     print("Downloading from LAPD Open Data portal...")
-    print("This file is ~190 MB — may take a few minutes depending on your connection.\n")
+    print("This file is ~190 MB — may take a few minutes.\n")
 
-    with requests.get(URL, stream=True, timeout=120) as r:
-        r.raise_for_status()
-        total = int(r.headers.get("content-length", 0))
-        downloaded = 0
-
-        with open(OUTPUT_FILE, "wb") as f:
-            for chunk in r.iter_content(chunk_size=1024 * 1024):
-                f.write(chunk)
-                downloaded += len(chunk)
-                if total:
-                    pct = downloaded / total * 100
-                    print(f"\r  {pct:.1f}%  ({downloaded / 1_000_000:.1f} MB / {total / 1_000_000:.1f} MB)", end="")
+    urllib.request.urlretrieve(URL, OUTPUT_FILE, reporthook=progress)
 
     print(f"\n\nDone. Saved to:\n  {OUTPUT_FILE}")
     print("\nYou can now open L.A_Crime_Rate.pbip in Power BI Desktop.")

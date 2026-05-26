@@ -110,10 +110,10 @@ The `crime` table is loaded from the CSV via a multi-step M script ([`01_PowerQu
 The source CSV (`Crime_Data_from_2020_to_Present.csv`) is **not included in this repo** because it is 192 MB. Download it using the provided script:
 
 ```bash
-python download_data.py
+py download_data.py
 ```
 
-This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 and the `requests` library (`pip install requests`).
+This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 — no additional libraries needed.
 
 > **Prefer not to run a script?** Download the file manually from the LAPD Open Data portal:
 > [https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
