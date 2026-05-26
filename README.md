@@ -115,7 +115,9 @@ python download_data.py
 
 This will download the file directly from the LAPD Open Data portal and save it to the correct location automatically. Requires Python 3 and the `requests` library (`pip install requests`).
 
-> Alternatively, download it manually from the [LAPD Open Data portal](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8) and place it in the root of this folder as `Crime_Data_from_2020_to_Present.csv`.
+> **Prefer not to run a script?** Download the file manually from the LAPD Open Data portal:
+> [https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
+> Place the downloaded file in the root of this folder as `Crime_Data_from_2020_to_Present.csv`. The Python script above does exactly this automatically.
 
 ### Step 2 — Open the report
 
