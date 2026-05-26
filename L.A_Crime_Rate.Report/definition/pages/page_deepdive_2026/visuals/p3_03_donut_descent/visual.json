@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "p3_03_donut_descent",
+  "position": {
+    "x": 16,
+    "y": 404,
+    "z": 2000,
+    "height": 300,
+    "width": 410,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "crime"
+                    }
+                  },
+                  "Property": "victim_descent_label"
+                }
+              },
+              "queryRef": "crime.victim_descent_label",
+              "nativeQueryRef": "victim_descent_label",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Victims with Known Age"
+                }
+              },
+              "queryRef": "_Measures.Victims with Known Age",
+              "nativeQueryRef": "Victims with Known Age"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Victim Descent (known victims only)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9252fddc01403e842621",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "crime"
+              }
+            },
+            "Property": "victim_descent_label"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "de98dc57aceaa3613b2e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Victims with Known Age"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

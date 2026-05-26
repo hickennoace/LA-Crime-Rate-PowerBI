@@ -1,0 +1,111 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "p6_05_donut_severity",
+  "position": {
+    "x": 776,
+    "y": 202,
+    "z": 4000,
+    "height": 248,
+    "width": 488,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "crime"
+                    }
+                  },
+                  "Property": "part"
+                }
+              },
+              "queryRef": "crime.part",
+              "nativeQueryRef": "part",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Crimes"
+                }
+              },
+              "queryRef": "_Measures.Total Crimes",
+              "nativeQueryRef": "Total Crimes"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Severity Split: Part 1 (Serious) vs Part 2'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "db4788c331c698af20df",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "crime"
+              }
+            },
+            "Property": "part"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "772b7d66f22d2d9cd23f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Crimes"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

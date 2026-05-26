@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "p5_00_title",
+  "position": {
+    "x": 16.466607480862326,
+    "y": 12.349955610646745,
+    "z": 6000,
+    "height": 67.238647213521162,
+    "width": 1247.3455166753213,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "L.A. Crime Analysis  ·  Time Patterns",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "22pt",
+                      "color": "#1f2937"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "When crimes occur — by hour of day, day of week, and month · 2020–2023",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#6b7280"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

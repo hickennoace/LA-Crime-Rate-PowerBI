@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "p6_00_title",
+  "position": {
+    "x": 16,
+    "y": 12,
+    "z": 7000,
+    "height": 70,
+    "width": 1248,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "L.A. Crime Analysis  ·  Crime Type Breakdown",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "22pt",
+                      "color": "#1f2937"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Most common crime types, Part 1 vs Part 2 severity split · 2020–2023",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#6b7280"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

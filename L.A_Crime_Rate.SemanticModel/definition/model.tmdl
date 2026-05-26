@@ -1,0 +1,23 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: he-IL
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["crime","DimDate","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table crime
+ref table DateTableTemplate_052a8992-737a-4042-95c5-3f4b54ddf461
+ref table LocalDateTable_5ce9b6ce-705f-4535-85fe-398a6a7181f0
+ref table LocalDateTable_bca51abd-64e7-4199-adb8-49833ef566c1
+ref table DimDate
+ref table _Measures
+
+ref cultureInfo en-US
+

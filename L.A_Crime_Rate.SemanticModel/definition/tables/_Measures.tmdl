@@ -1,0 +1,222 @@
+table _Measures
+	lineageTag: b2c3d4e5-f6a7-4002-8002-200000000001
+
+	measure 'Total Crimes' = COUNTROWS ( crime )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000010
+
+	measure 'Crimes YoY' =
+			VAR Curr = [Total Crimes]
+			VAR Prev = CALCULATE ( [Total Crimes], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+			RETURN Curr - Prev
+		formatString: +#,0;-#,0;0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000011
+
+	measure 'Crimes YoY %' =
+			VAR Curr = [Total Crimes]
+			VAR Prev = CALCULATE ( [Total Crimes], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+			RETURN DIVIDE ( Curr - Prev, Prev )
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000012
+
+	measure 'Avg Crimes per Day' =
+			DIVIDE (
+			    [Total Crimes],
+			    DISTINCTCOUNT ( crime[date_occurred] )
+			)
+		formatString: #,0.0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000013
+
+	measure 'Avg Crimes per Month' =
+			AVERAGEX (
+			    VALUES ( DimDate[YearMonth] ),
+			    [Total Crimes]
+			)
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000014
+
+	measure 'Top Weapon Count' =
+			CALCULATE (
+			    COUNTROWS ( crime ),
+			    NOT ISBLANK ( crime[weapon_description] ),
+			    NOT ( crime[weapon_description] IN { "Unknown Weapon/Other Weapon", "Verbal Threat", "Strong-Arm (Hands, Fist, Feet Or Bodily Force)" } )
+			)
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000015
+
+	measure 'Top Weapon Name' =
+			VAR ExcludedWeapons =
+			    { "Unknown Weapon/Other Weapon", "Verbal Threat", "Strong-Arm (Hands, Fist, Feet Or Bodily Force)" }
+			VAR FilteredWeapons =
+			    FILTER (
+			        VALUES ( crime[weapon_description] ),
+			        NOT ISBLANK ( crime[weapon_description] )
+			            && NOT ( crime[weapon_description] IN ExcludedWeapons )
+			    )
+			VAR TopWeapon =
+			    TOPN ( 1, FilteredWeapons, CALCULATE ( COUNTROWS ( crime ) ), DESC )
+			RETURN
+			    CONCATENATEX ( TopWeapon, crime[weapon_description] )
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000016
+
+	measure 'Crimes by Area' = CALCULATE ( [Total Crimes], ALLEXCEPT ( crime, crime[area_name] ) )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000017
+
+	measure 'Area Rank' =
+			RANKX (
+			    ALL ( crime[area_name] ),
+			    [Total Crimes],
+			    ,
+			    DESC,
+			    Dense
+			)
+		formatString: 0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000018
+
+	measure 'Weapon Incidents (clean)' =
+			CALCULATE (
+			    COUNTROWS ( crime ),
+			    NOT ISBLANK ( crime[weapon_description] ),
+			    NOT ( crime[weapon_description] IN { "Unknown Weapon/Other Weapon", "Verbal Threat" } )
+			)
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000019
+
+	measure 'Part 1 Crimes' = CALCULATE ( [Total Crimes], crime[part] = 1 )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001a
+
+	measure 'Part 2 Crimes' = CALCULATE ( [Total Crimes], crime[part] = 2 )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001b
+
+	measure 'Part 1 Share' = DIVIDE ( [Part 1 Crimes], [Total Crimes] )
+		formatString: 0.0%
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001c
+
+	measure 'Crimes 12M Rolling Avg' =
+			VAR EndDate = MAX ( DimDate[Date] )
+			VAR Window  = DATESINPERIOD ( DimDate[Date], EndDate, -12, MONTH )
+			RETURN
+			    DIVIDE (
+			        CALCULATE ( [Total Crimes], Window ),
+			        12
+			    )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001d
+
+	measure 'Avg Reporting Lag (days)' = AVERAGE ( crime[reporting_lag_days] )
+		formatString: #,0.0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001e
+
+	measure 'Median Reporting Lag (days)' = MEDIAN ( crime[reporting_lag_days] )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-20000000001f
+
+	measure 'Crimes Reported Late (>30d)' =
+			CALCULATE (
+			    [Total Crimes],
+			    crime[reporting_lag_days] > 30
+			)
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000020
+
+	measure 'Victims with Known Age' = CALCULATE ( [Total Crimes], NOT ISBLANK ( crime[victim_age] ) )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000021
+
+	measure 'Avg Victim Age' = AVERAGE ( crime[victim_age] )
+		formatString: #,0.0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000022
+
+	measure 'Year Label' =
+			VAR Y = SELECTEDVALUE ( DimDate[Year] )
+			VAR MaxDate = CALCULATE ( MAX ( crime[date_occurred] ), ALL ( crime ) )
+			RETURN
+			    IF (
+			        Y = YEAR ( MaxDate ) && MaxDate < DATE ( Y, 12, 31 ),
+			        Y & " (partial — through " & FORMAT ( MaxDate, "MMM d" ) & ")",
+			        Y & ""
+			    )
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000023
+
+	measure 'Crimes Under Investigation' =
+			CALCULATE ( [Total Crimes], crime[status] = "IC" )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000027
+
+	measure 'Arrest Rate' =
+			DIVIDE (
+			    CALCULATE ( [Total Crimes], crime[status] IN { "AA", "JA" } ),
+			    [Total Crimes]
+			)
+		formatString: 0.0%
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000028
+
+	measure 'Crimes Arrested' =
+			CALCULATE ( [Total Crimes], crime[status] IN { "AA", "JA" } )
+		formatString: #,0
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000029
+
+	measure 'Peak Hour of Day' =
+			VAR TopHour =
+			    MINX(
+			        TOPN(
+			            1,
+			            FILTER(VALUES(crime[hour_occurred]), NOT ISBLANK(crime[hour_occurred])),
+			            CALCULATE(COUNTROWS(crime)),
+			            DESC
+			        ),
+			        crime[hour_occurred]
+			    )
+			RETURN
+			    IF(
+			        ISBLANK(TopHour), BLANK(),
+			        IF(TopHour = 0, "12:00 AM",
+			        IF(TopHour < 12, TopHour & ":00 AM",
+			        IF(TopHour = 12, "12:00 PM",
+			        (TopHour - 12) & ":00 PM")))
+			    )
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000024
+
+	measure 'Busiest Weekday' =
+			CONCATENATEX(
+			    TOPN(
+			        1,
+			        VALUES(crime[weekday_name]),
+			        CALCULATE(COUNTROWS(crime)),
+			        DESC
+			    ),
+			    crime[weekday_name]
+			)
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000025
+
+	measure 'Top Crime Description' =
+			CONCATENATEX(
+			    TOPN(
+			        1,
+			        VALUES(crime[crime_description]),
+			        CALCULATE(COUNTROWS(crime)),
+			        DESC
+			    ),
+			    crime[crime_description]
+			)
+		lineageTag: b2c3d4e5-f6a7-4002-8002-200000000026
+
+	column Placeholder
+		dataType: string
+		isHidden
+		lineageTag: b2c3d4e5-f6a7-4002-8002-2000000000ff
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW ( "Placeholder", BLANK () )
+
+	annotation PBI_Id = b2c3d4e5f6a7400280020000000000ff
+

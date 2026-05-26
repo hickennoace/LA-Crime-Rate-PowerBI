@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
+  "pageOrder": [
+    "96dae2d94a9613df0923",
+    "page_geo_2026",
+    "page_deepdive_2026",
+    "page_demographics_2026",
+    "page_time_2026",
+    "page_crimetype_2026",
+    "page_status_2026"
+  ],
+  "activePageName": "page_crimetype_2026"
+}

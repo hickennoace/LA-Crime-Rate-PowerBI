@@ -1,0 +1,144 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "p5_03_col_hour",
+  "position": {
+    "x": 16.466607480862326,
+    "y": 212.6936799611384,
+    "z": 2000,
+    "height": 237.39359118243189,
+    "width": 1247.3455166753213,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "crime"
+                    }
+                  },
+                  "Property": "hour_occurred"
+                }
+              },
+              "queryRef": "crime.hour_occurred",
+              "nativeQueryRef": "hour_occurred",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Total Crimes"
+                }
+              },
+              "queryRef": "_Measures.Total Crimes",
+              "nativeQueryRef": "Total Crimes"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "crime"
+                  }
+                },
+                "Property": "hour_occurred"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Hour occurred'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Crimes by Hour of Day (0 = midnight, 12 = noon)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3aa9534795708b83d05d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "crime"
+              }
+            },
+            "Property": "hour_occurred"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f2658ff8f07efea43112",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Total Crimes"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

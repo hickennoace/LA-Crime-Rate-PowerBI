@@ -1,0 +1,531 @@
+table crime
+	lineageTag: e4ac4096-8ba7-4100-8560-4c00b43023b0
+
+	column division_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 3544c15a-a2d2-4bc6-ac34-bbef0ae90192
+		summarizeBy: sum
+		sourceColumn: division_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_reported
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 594951a7-62b6-469f-9023-646e93312ccc
+		summarizeBy: none
+		sourceColumn: date_reported
+
+		variation Variation
+			isDefault
+			relationship: 57f9603f-d1cc-4e78-a70a-3475b08629de
+			defaultHierarchy: LocalDateTable_5ce9b6ce-705f-4535-85fe-398a6a7181f0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date_occurred
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9b3ed966-ffa9-4677-b0ed-d4a0038c6aab
+		summarizeBy: none
+		sourceColumn: date_occurred
+
+		variation Variation
+			isDefault
+			relationship: f1ee3b94-bd1b-4c03-97dd-cc583062bb6c
+			defaultHierarchy: LocalDateTable_bca51abd-64e7-4199-adb8-49833ef566c1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column area
+		dataType: int64
+		formatString: 0
+		lineageTag: 7452671f-f846-4663-aaf8-bd9ecdb3eb51
+		summarizeBy: sum
+		sourceColumn: area
+
+		annotation SummarizationSetBy = Automatic
+
+	column area_name
+		dataType: string
+		lineageTag: fa75801e-477d-4302-be5d-f37ed81e3bbe
+		summarizeBy: none
+		sourceColumn: area_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column reporting_district
+		dataType: int64
+		formatString: 0
+		lineageTag: f4402ebe-d0d6-4a9d-8804-196941e27ebf
+		summarizeBy: sum
+		sourceColumn: reporting_district
+
+		annotation SummarizationSetBy = Automatic
+
+	column part
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f629a42-9416-4441-9d80-2add45e9a7b2
+		summarizeBy: sum
+		sourceColumn: part
+
+		annotation SummarizationSetBy = Automatic
+
+	column crime_code
+		dataType: int64
+		formatString: 0
+		lineageTag: ca5b9d72-8cbb-4d08-ba33-e1e758ddbea6
+		summarizeBy: sum
+		sourceColumn: crime_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column crime_description
+		dataType: string
+		lineageTag: acf3a15f-2541-4d17-9cfa-b756f22d4723
+		summarizeBy: none
+		sourceColumn: crime_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column modus_operandi
+		dataType: string
+		lineageTag: e2151a38-a6d4-47ef-84e5-43b9a6849946
+		summarizeBy: none
+		sourceColumn: modus_operandi
+
+		annotation SummarizationSetBy = Automatic
+
+	column victim_age
+		dataType: int64
+		formatString: 0
+		lineageTag: 038ee19d-30b4-46c0-855e-10c1e0ed739b
+		summarizeBy: sum
+		sourceColumn: victim_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column victim_sex
+		dataType: string
+		lineageTag: d2640a57-1769-433f-8467-4ff1f81830a3
+		summarizeBy: none
+		sourceColumn: victim_sex
+
+		annotation SummarizationSetBy = Automatic
+
+	column victim_descent
+		dataType: string
+		lineageTag: 2e954ecc-2bdd-4f54-8050-73cc8348da24
+		summarizeBy: none
+		sourceColumn: victim_descent
+
+		annotation SummarizationSetBy = Automatic
+
+	column premise_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 29bc779f-a87b-408d-a4af-e5e0385021c9
+		summarizeBy: sum
+		sourceColumn: premise_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column premise_description
+		dataType: string
+		lineageTag: 04d91182-7d61-49b6-9d74-f2b7cd56af61
+		summarizeBy: none
+		sourceColumn: premise_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column weapon_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 182b0093-520b-4c0c-a1ad-e1513b19d119
+		summarizeBy: sum
+		sourceColumn: weapon_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column weapon_description
+		dataType: string
+		lineageTag: 95dd51f0-bf46-4c85-b29b-15e0d879feae
+		summarizeBy: none
+		sourceColumn: weapon_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: b138ed98-32c5-4868-8ec9-f3a97e6a9e69
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_description
+		dataType: string
+		lineageTag: 19004033-1373-48dc-bd3b-8cb733aa3ee4
+		summarizeBy: none
+		sourceColumn: status_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column crime_code_1
+		dataType: string
+		lineageTag: d8228f7b-63da-44e0-8b82-908f7fb7a53a
+		summarizeBy: none
+		sourceColumn: crime_code_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column location
+		dataType: string
+		lineageTag: 277d9980-eaaf-426c-a28e-1491e83432c4
+		summarizeBy: none
+		sourceColumn: location
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 1922bf49-a77b-4d26-b62f-ca65a1711f0c
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 934500d1-095b-4171-b43d-b356ea8e3ae3
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column time_occurred
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 4db471b4-6ba7-4779-82fa-9b3da589a0dd
+		summarizeBy: none
+		sourceColumn: time_occurred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column year_occurred
+		dataType: int64
+		formatString: 0
+		lineageTag: db2c86c2-54e9-4387-bd8a-47771dedb94f
+		summarizeBy: sum
+		sourceColumn: year_occurred
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_occurred
+		dataType: int64
+		formatString: 0
+		lineageTag: 932a304e-9e63-4ae1-ab96-d26cb6bf9054
+		summarizeBy: sum
+		sourceColumn: month_occurred
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 40156a40-ab6d-4985-b731-ee133cc0005b
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_occurred
+		dataType: int64
+		formatString: 0
+		lineageTag: 0338d316-6912-4ef0-b15f-cbc25cd65519
+		summarizeBy: sum
+		sourceColumn: quarter_occurred
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekday_name
+		dataType: string
+		lineageTag: 38d607b0-1b44-4eef-af33-11bd01c0f3d5
+		summarizeBy: none
+		sourceColumn: weekday_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekday_number
+		dataType: int64
+		formatString: 0
+		lineageTag: f730f481-a5e4-4f9d-b8d9-afcfdb97d5a8
+		summarizeBy: sum
+		sourceColumn: weekday_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour_occurred
+		dataType: int64
+		formatString: 0
+		lineageTag: b251d6c8-bc15-4514-bec7-57277662cbb9
+		summarizeBy: sum
+		sourceColumn: hour_occurred
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_part_1
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1b0d4cde-4925-4497-ac0c-9e635b6154d8
+		summarizeBy: none
+		sourceColumn: is_part_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column reporting_lag_days
+		dataType: int64
+		formatString: 0
+		lineageTag: e6feec35-7c44-4904-a318-c7c414146726
+		summarizeBy: sum
+		sourceColumn: reporting_lag_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column victim_age_band
+		dataType: string
+		lineageTag: c802e098-bdeb-4497-8431-4561ad22e472
+		summarizeBy: none
+		sourceColumn: victim_age_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column victim_descent_label
+		dataType: string
+		lineageTag: 46151491-db59-402d-b5b0-becedb137d81
+		summarizeBy: none
+		sourceColumn: victim_descent_label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition crime = m
+		mode: import
+		source =
+				// =============================================================================
+				//  L.A. CRIME RATE — POWER QUERY M SCRIPT
+				//  Paste this into:  Power Query Editor → Home → Advanced Editor
+				//  Replace the entire contents with this script.
+				//
+				//  Validated against 852,950 rows on 2026-05-26.
+				//  Source date range: 2020-01-01 → 2023-12-04 (2023 is PARTIAL).
+				// =============================================================================
+				let
+				    // -------------------------------------------------------------------------
+				    // 1. SOURCE — load the CSV with explicit UTF-8 + comma delimiter
+				    // -------------------------------------------------------------------------
+				    Source = Csv.Document(
+				        File.Contents(
+				            "C:\Users\danie\Desktop\Data and Financel Analysis\PowerBI\L.A Crime Rate\Crime_Data_from_2020_to_Present.csv"
+				        ),
+				        [Delimiter = ",", Columns = 27, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 2. PROMOTE HEADERS
+				    // -------------------------------------------------------------------------
+				    PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				
+				    // -------------------------------------------------------------------------
+				    // 3. FIX THE CORRUPTED COLUMN NAME ("FOLDING KNIFE" → weapon_description)
+				    //    This is the leaked-value-as-header bug we identified in validation.
+				    // -------------------------------------------------------------------------
+				    RenamedWeaponColumn = Table.RenameColumns(
+				        PromotedHeaders,
+				        {{"FOLDING KNIFE", "weapon_description"}}
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 4. SPLIT date_occurred into date + time (it currently holds "DD/MM/YYYY HH:MM")
+				    // -------------------------------------------------------------------------
+				    SplitDateOccurred = Table.SplitColumn(
+				        RenamedWeaponColumn,
+				        "date_occurred",
+				        Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false),
+				        {"date_occurred", "time_occurred"}
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 5. TYPE-CAST WITH UK LOCALE (en-GB) — dates are DD/MM/YYYY, NOT MM/DD/YYYY
+				    //    Skipping the locale tag causes ~60% of dates to be silently rejected.
+				    // -------------------------------------------------------------------------
+				    TypedDates = Table.TransformColumnTypes(
+				        SplitDateOccurred,
+				        {
+				            {"date_reported", type date},
+				            {"date_occurred", type date},
+				            {"time_occurred", type time}
+				        },
+				        "en-GB"
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 6. TYPE-CAST NUMERIC + TEXT COLUMNS
+				    // -------------------------------------------------------------------------
+				    TypedRest = Table.TransformColumnTypes(
+				        TypedDates,
+				        {
+				            {"division_number", Int64.Type},
+				            {"area", Int64.Type},
+				            {"area_name", type text},
+				            {"reporting_district", Int64.Type},
+				            {"part", Int64.Type},
+				            {"crime_code", Int64.Type},
+				            {"crime_description", type text},
+				            {"modus_operandi", type text},
+				            {"victim_age", Int64.Type},
+				            {"victim_sex", type text},
+				            {"victim_descent", type text},
+				            {"premise_code", Int64.Type},
+				            {"premise_description", type text},
+				            {"weapon_code", Int64.Type},
+				            {"weapon_description", type text},
+				            {"status", type text},
+				            {"status_description", type text},
+				            {"location", type text},
+				            {"cross_street", type text},
+				            {"latitude", type number},
+				            {"longitude", type number}
+				        }
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 7. CLEAN "UNKONW" (misspelled UNKNOWN) → null
+				    //    65% of rows have this — keeping them as text poisons the weapon KPI.
+				    // -------------------------------------------------------------------------
+				    CleanWeaponText = Table.ReplaceValue(
+				        TypedRest,
+				        "UNKONW",
+				        null,
+				        Replacer.ReplaceValue,
+				        {"weapon_description"}
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 8. PROPER-CASE the weapon_description for presentation
+				    // -------------------------------------------------------------------------
+				    ProperCaseWeapon = Table.TransformColumns(
+				        CleanWeaponText,
+				        {{"weapon_description", each if _ = null then null else Text.Proper(Text.Trim(_)), type nullable text}}
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 9. REPLACE UNKNOWN-VALUE SENTINELS WITH NULL
+				    //    weapon_code = 0   → null    (211k+ rows)
+				    //    victim_age  = 0   → null    (211,842 rows)
+				    //    victim_sex  = "X" or empty → null
+				    //    victim_descent = "X" → null
+				    // -------------------------------------------------------------------------
+				    NullWeaponCode = Table.ReplaceValue(ProperCaseWeapon, 0, null, Replacer.ReplaceValue, {"weapon_code"}),
+				    NullVictimAge  = Table.ReplaceValue(NullWeaponCode,    0, null, Replacer.ReplaceValue, {"victim_age"}),
+				    NullVictimSex  = Table.ReplaceValue(NullVictimAge,
+				                        each [victim_sex],
+				                        each if [victim_sex] = "X" or [victim_sex] = "" or [victim_sex] = null then null else [victim_sex],
+				                        Replacer.ReplaceValue,
+				                        {"victim_sex"}),
+				    NullVictimDesc = Table.ReplaceValue(NullVictimSex,
+				                        each [victim_descent],
+				                        each if [victim_descent] = "X" or [victim_descent] = "" or [victim_descent] = null then null else [victim_descent],
+				                        Replacer.ReplaceValue,
+				                        {"victim_descent"}),
+				
+				    // -------------------------------------------------------------------------
+				    // 10. DERIVED COLUMNS — do heavy lifting here, not in DAX (load-time, not per-visual)
+				    // -------------------------------------------------------------------------
+				    AddYear     = Table.AddColumn(NullVictimDesc, "year_occurred",     each Date.Year([date_occurred]),       Int64.Type),
+				    AddMonth    = Table.AddColumn(AddYear,         "month_occurred",    each Date.Month([date_occurred]),      Int64.Type),
+				    AddMonthName= Table.AddColumn(AddMonth,        "month_name",        each Date.MonthName([date_occurred]),  type text),
+				    AddQuarter  = Table.AddColumn(AddMonthName,    "quarter_occurred",  each Date.QuarterOfYear([date_occurred]), Int64.Type),
+				    AddWeekday  = Table.AddColumn(AddQuarter,      "weekday_name",      each Date.DayOfWeekName([date_occurred]), type text),
+				    AddWeekdayN = Table.AddColumn(AddWeekday,      "weekday_number",    each Date.DayOfWeek([date_occurred], Day.Monday) + 1, Int64.Type),
+				    AddHour     = Table.AddColumn(AddWeekdayN,     "hour_occurred",     each if [time_occurred] = null then null else Time.Hour([time_occurred]), Int64.Type),
+				    AddIsPart1  = Table.AddColumn(AddHour,         "is_part_1",         each [part] = 1, type logical),
+				
+				    // Reporting lag (days between occurrence and report)
+				    AddReportLag = Table.AddColumn(
+				        AddIsPart1,
+				        "reporting_lag_days",
+				        each Duration.Days([date_reported] - [date_occurred]),
+				        Int64.Type
+				    ),
+				
+				    // Age bands for victim demographics chart
+				    AddAgeBand = Table.AddColumn(
+				        AddReportLag,
+				        "victim_age_band",
+				        each if [victim_age] = null      then "Unknown"
+				        else if [victim_age] < 18        then "Under 18"
+				        else if [victim_age] < 25        then "18-24"
+				        else if [victim_age] < 35        then "25-34"
+				        else if [victim_age] < 50        then "35-49"
+				        else if [victim_age] < 65        then "50-64"
+				        else                                  "65+",
+				        type text
+				    ),
+				
+				    // Map descent codes to human-readable labels (per LAPD codebook)
+				    AddDescentLabel = Table.AddColumn(
+				        AddAgeBand,
+				        "victim_descent_label",
+				        each
+				            let d = [victim_descent] in
+				            if d = null then "Unknown"
+				            else if d = "A" then "Other Asian"
+				            else if d = "B" then "Black"
+				            else if d = "C" then "Chinese"
+				            else if d = "D" then "Cambodian"
+				            else if d = "F" then "Filipino"
+				            else if d = "G" then "Guamanian"
+				            else if d = "H" then "Hispanic/Latin"
+				            else if d = "I" then "American Indian"
+				            else if d = "J" then "Japanese"
+				            else if d = "K" then "Korean"
+				            else if d = "L" then "Laotian"
+				            else if d = "O" then "Other"
+				            else if d = "P" then "Pacific Islander"
+				            else if d = "S" then "Samoan"
+				            else if d = "U" then "Hawaiian"
+				            else if d = "V" then "Vietnamese"
+				            else if d = "W" then "White"
+				            else if d = "Z" then "Asian Indian"
+				            else "Other",
+				        type text
+				    ),
+				
+				    // -------------------------------------------------------------------------
+				    // 11. REMOVE COLUMNS THAT ARE MOSTLY NULL / NOT USED IN VISUALS
+				    //     crime_code_2..4 and cross_street are >95% null per validation pass.
+				    //     Keep them if you need investigative drill-through; otherwise drop.
+				    // -------------------------------------------------------------------------
+				    RemovedColumns = Table.RemoveColumns(
+				        AddDescentLabel,
+				        {"crime_code_2", "crime_code_3", "crime_code_4", "cross_street"},
+				        MissingField.Ignore
+				    )
+				in
+				    RemovedColumns
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

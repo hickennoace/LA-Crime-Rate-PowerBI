@@ -1,0 +1,272 @@
+
+// =============================================================================
+//  PAGE 1 — EXECUTIVE OVERVIEW
+// =============================================================================
+
+Total Crimes =
+COUNTROWS ( crime )
+
+
+Crimes YoY =
+VAR Curr = [Total Crimes]
+VAR Prev = CALCULATE ( [Total Crimes], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+RETURN
+    Curr - Prev
+
+
+Crimes YoY % =
+VAR Curr = [Total Crimes]
+VAR Prev = CALCULATE ( [Total Crimes], SAMEPERIODLASTYEAR ( DimDate[Date] ) )
+RETURN
+    DIVIDE ( Curr - Prev, Prev )
+
+
+-- Metric C: defensible daily baseline (uses distinct days in current filter context)
+Avg Crimes per Day =
+DIVIDE (
+    [Total Crimes],
+    DISTINCTCOUNT ( crime[date_occurred] )
+)
+
+
+Avg Crimes per Month =
+AVERAGEX (
+    VALUES ( DimDate[YearMonth] ),
+    [Total Crimes]
+)
+
+
+-- Metric D: most common weapon NAME (for KPI card)
+Top Weapon Name =
+CALCULATE (
+    FIRSTNONBLANK ( crime[weapon_description], 1 ),
+    TOPN (
+        1,
+        FILTER (
+            VALUES ( crime[weapon_description] ),
+            NOT ISBLANK ( crime[weapon_description] )
+                && NOT ( crime[weapon_description] IN { "Unknown Weapon/Other Weapon", "Verbal Threat" } )
+        ),
+        CALCULATE ( COUNTROWS ( crime ) ),
+        DESC
+    )
+)
+
+
+-- Metric D companion: count of incidents using that top weapon
+Top Weapon Count =
+CALCULATE (
+    COUNTROWS ( crime ),
+    NOT ISBLANK ( crime[weapon_description] ),
+    NOT ( crime[weapon_description] IN { "Unknown Weapon/Other Weapon", "Verbal Threat" } )
+)
+
+
+-- Optional: same KPI but EXCLUDING strong-arm (hands/fists/feet) so the headline
+-- weapon is an actual object. Toggle between this and the version above.
+Top Weapon Name (objects only) =
+CALCULATE (
+    FIRSTNONBLANK ( crime[weapon_description], 1 ),
+    TOPN (
+        1,
+        FILTER (
+            VALUES ( crime[weapon_description] ),
+            NOT ISBLANK ( crime[weapon_description] )
+                && NOT ( crime[weapon_description] IN {
+                    "Unknown Weapon/Other Weapon",
+                    "Verbal Threat",
+                    "Strong-Arm (Hands, Fist, Feet Or Bodily Force)"
+                } )
+        ),
+        CALCULATE ( COUNTROWS ( crime ) ),
+        DESC
+    )
+)
+
+
+// =============================================================================
+//  PAGE 2 — GEOGRAPHIC & OPERATIONAL
+// =============================================================================
+
+Crimes by Area =
+CALCULATE ( [Total Crimes], ALLEXCEPT ( crime, crime[area_name] ) )
+
+
+Area Rank =
+RANKX (
+    ALL ( crime[area_name] ),
+    [Total Crimes],
+    ,
+    DESC,
+    Dense
+)
+
+
+-- For the hour × weekday heatmap (Advanced Insight #2).
+-- These columns are PRE-COMPUTED in Power Query: hour_occurred, weekday_name.
+-- Drop a matrix visual with: rows = weekday_name, cols = hour_occurred, values = [Total Crimes]
+-- Then apply conditional formatting (Format → Cell elements → Background color).
+Crimes per Hour Slot = [Total Crimes]
+
+
+// =============================================================================
+//  PAGE 3 — DEEP DIVE
+// =============================================================================
+
+// --- Most-common weapon (full ranked bar) ---
+Weapon Incidents (clean) =
+CALCULATE (
+    COUNTROWS ( crime ),
+    NOT ISBLANK ( crime[weapon_description] ),
+    NOT ( crime[weapon_description] IN { "Unknown Weapon/Other Weapon", "Verbal Threat" } )
+)
+
+
+// --- Part-1 vs Part-2 severity (Advanced Insight #6) ---
+Part 1 Crimes =
+CALCULATE ( [Total Crimes], crime[part] = 1 )
+
+
+Part 2 Crimes =
+CALCULATE ( [Total Crimes], crime[part] = 2 )
+
+
+Part 1 Share =
+DIVIDE ( [Part 1 Crimes], [Total Crimes] )
+
+
+// --- 12-month rolling average (Advanced Insight #3) ---
+Crimes 12M Rolling Avg =
+VAR EndDate = MAX ( DimDate[Date] )
+VAR Window  = DATESINPERIOD ( DimDate[Date], EndDate, -12, MONTH )
+RETURN
+    DIVIDE (
+        CALCULATE ( [Total Crimes], Window ),
+        12
+    )
+
+
+// --- Reporting lag (Advanced Insight #1) ---
+Avg Reporting Lag (days) =
+AVERAGE ( crime[reporting_lag_days] )
+
+
+Median Reporting Lag (days) =
+MEDIAN ( crime[reporting_lag_days] )
+
+
+Crimes Reported Late (>30d) =
+CALCULATE (
+    [Total Crimes],
+    crime[reporting_lag_days] > 30
+)
+
+
+// --- Demographics (Advanced Insight #4) ---
+// Use these alongside slicers; don't make demographics the default split.
+Victims with Known Age =
+CALCULATE ( [Total Crimes], NOT ISBLANK ( crime[victim_age] ) )
+
+
+Avg Victim Age =
+AVERAGE ( crime[victim_age] )    -- nulls auto-excluded
+
+
+// =============================================================================
+//  PAGE 7 — STATUS & INVESTIGATION SUMMARY
+// =============================================================================
+
+// Crimes still open (Investigation Continuing)
+Crimes Under Investigation =
+CALCULATE ( [Total Crimes], crime[status] = "IC" )
+
+
+// Share of crimes that resulted in an arrest (adult or juvenile)
+Arrest Rate =
+DIVIDE (
+    CALCULATE ( [Total Crimes], crime[status] IN { "AA", "JA" } ),
+    [Total Crimes]
+)
+
+
+// Raw arrest count companion to Arrest Rate
+Crimes Arrested =
+CALCULATE ( [Total Crimes], crime[status] IN { "AA", "JA" } )
+
+
+// =============================================================================
+//  PAGE 4 — VICTIM DEMOGRAPHICS  (new KPI cards)
+// =============================================================================
+
+// Already covered by existing measures: Avg Victim Age, Victims with Known Age
+
+
+// =============================================================================
+//  PAGE 5 — TIME PATTERNS
+// =============================================================================
+
+// Peak hour across current filter context (formatted as 12-hr clock)
+Peak Hour of Day =
+VAR TopHour =
+    MINX(
+        TOPN(
+            1,
+            FILTER(VALUES(crime[hour_occurred]), NOT ISBLANK(crime[hour_occurred])),
+            CALCULATE(COUNTROWS(crime)),
+            DESC
+        ),
+        crime[hour_occurred]
+    )
+RETURN
+    IF(
+        ISBLANK(TopHour), BLANK(),
+        IF(TopHour = 0, "12:00 AM",
+        IF(TopHour < 12, TopHour & ":00 AM",
+        IF(TopHour = 12, "12:00 PM",
+        (TopHour - 12) & ":00 PM")))
+    )
+
+
+// Most active day of the week
+Busiest Weekday =
+CONCATENATEX(
+    TOPN(
+        1,
+        VALUES(crime[weekday_name]),
+        CALCULATE(COUNTROWS(crime)),
+        DESC
+    ),
+    crime[weekday_name]
+)
+
+
+// =============================================================================
+//  PAGE 6 — CRIME TYPE BREAKDOWN
+// =============================================================================
+
+// Most frequent crime description in current filter context
+Top Crime Description =
+CONCATENATEX(
+    TOPN(
+        1,
+        VALUES(crime[crime_description]),
+        CALCULATE(COUNTROWS(crime)),
+        DESC
+    ),
+    crime[crime_description]
+)
+
+
+// =============================================================================
+//  ANNOTATION HELPER — flag partial year 2023 on the yearly chart
+// =============================================================================
+
+Year Label =
+VAR Y = SELECTEDVALUE ( DimDate[Year] )
+VAR MaxDate = CALCULATE ( MAX ( crime[date_occurred] ), ALL ( crime ) )
+RETURN
+    IF (
+        Y = YEAR ( MaxDate ) && MaxDate < DATE ( Y, 12, 31 ),
+        Y & " (partial — through " & FORMAT ( MaxDate, "MMM d" ) & ")",
+        Y & ""
+    )
