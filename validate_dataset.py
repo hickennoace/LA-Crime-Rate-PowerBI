@@ -1,7 +1,4 @@
-"""
-Pre-import validation for the L.A. Crime dataset.
-Confirms every data-quality assumption before we commit to Power Query transforms.
-"""
+# Sanity checks I run on the raw CSV before touching it in Power Query.
 
 import pandas as pd
 import numpy as np
@@ -9,12 +6,12 @@ from pathlib import Path
 
 CSV = Path(__file__).parent / "Crime_Data_from_2020_to_Present.csv"
 
-# Read with all columns as string so we can inspect raw values
+# Load everything as strings so I can see the raw values
 print(f"Loading {CSV.name}...")
 df = pd.read_csv(CSV, dtype=str, low_memory=False, keep_default_na=False)
 print(f"  Rows: {len(df):,}    Columns: {len(df.columns)}\n")
 
-# 1. Confirm the corrupted header
+# 1. The corrupted header
 print("=" * 70)
 print("1. HEADER CHECK (column index 16 should be 'weapon_description')")
 print("=" * 70)
@@ -26,11 +23,11 @@ for i, c in enumerate(df.columns):
 if "FOLDING KNIFE" in df.columns:
     df = df.rename(columns={"FOLDING KNIFE": "weapon_description"})
 
-# 2. Date format confirmation
+# 2. Date format
 print("\n" + "=" * 70)
 print("2. DATE FORMAT CHECK (expecting DD/MM/YYYY)")
 print("=" * 70)
-# Parse both ways and see which yields valid dates with sensible distribution
+# Parse both ways, see which one yields valid dates
 for col in ["date_reported", "date_occurred"]:
     sample = df[col].str.split(" ").str[0]   # drop time portion if any
     dmy = pd.to_datetime(sample, format="%d/%m/%Y", errors="coerce")
@@ -41,7 +38,7 @@ for col in ["date_reported", "date_occurred"]:
     print(f"     parsed as MM/DD/YYYY -> {mdy.notna().sum():,} valid, "
           f"range {mdy.min()} -> {mdy.max()}")
 
-# Use DD/MM/YYYY going forward
+# DD/MM/YYYY won, use that
 df["date_occurred_dt"] = pd.to_datetime(
     df["date_occurred"].str.split(" ").str[0], format="%d/%m/%Y", errors="coerce")
 df["date_reported_dt"] = pd.to_datetime(
@@ -96,7 +93,7 @@ print("=" * 70)
 yearly = df["date_occurred_dt"].dt.year.value_counts().sort_index()
 print(yearly.to_string())
 
-# 8. Reporting-lag preview (Advanced Insight #1)
+# 8. Reporting lag preview
 print("\n" + "=" * 70)
 print("8. REPORTING-LAG PREVIEW (date_reported - date_occurred)")
 print("=" * 70)
@@ -106,7 +103,7 @@ print(f"  >30 days:  {(lag > 30).sum():,}")
 print(f"  >365 days: {(lag > 365).sum():,}")
 print(f"  negative (data error): {(lag < 0).sum():,}")
 
-# 9. Daily/monthly average preview (Metric C)
+# 9. Daily/monthly average preview
 print("\n" + "=" * 70)
 print("9. AVERAGE-RATE BASELINES")
 print("=" * 70)

@@ -1,13 +1,9 @@
-"""
-End-to-end validation for the generated PBIR project.
-
-Checks:
-  1. Every JSON file parses
-  2. Every TMDL file is non-empty
-  3. Every measure/column reference in visual.json files exists in the model
-  4. Every page referenced in pages.json has a corresponding folder
-  5. Every relationship references existing tables/columns
-"""
+# Quick check that the generated PBIR project is self-consistent:
+#   1. JSON files parse
+#   2. TMDL files aren't empty
+#   3. Every measure/column referenced in a visual exists in the model
+#   4. Every page in pages.json has its folder
+#   5. Relationships point at real tables/columns
 
 import json
 import re

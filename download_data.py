@@ -1,12 +1,4 @@
-"""
-Downloads Crime_Data_from_2020_to_Present.csv from the LAPD Open Data portal
-and saves it to the same folder as this script.
-
-Usage:
-    python download_data.py
-
-No external libraries required — uses Python's built-in urllib.
-"""
+# Downloads the LAPD crime CSV into this folder. Run: python download_data.py
 
 import os
 import urllib.request
@@ -33,12 +25,11 @@ def download():
         return
 
     print("Downloading from LAPD Open Data portal...")
-    print("This file is ~190 MB — may take a few minutes.\n")
+    print("File is around 190 MB.\n")
 
     urllib.request.urlretrieve(URL, OUTPUT_FILE, reporthook=progress)
 
-    print(f"\n\nDone. Saved to:\n  {OUTPUT_FILE}")
-    print("\nYou can now open L.A_Crime_Rate.pbip in Power BI Desktop.")
+    print(f"\n\nSaved to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

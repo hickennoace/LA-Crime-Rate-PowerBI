@@ -1,145 +1,72 @@
-# L.A. Crime Rate - Power BI Report
+# L.A. Crime Rate
 
-An interactive Power BI report analysing **852,950 LAPD reported incidents** from 2020-01-01 through 2023-12-04 (2023 is a partial year).
+A Power BI report I put together on LAPD crime data from 2020 through late 2023. The dataset has around 852,950 reported incidents.
 
-## Data Source
+## The data
 
-| Field | Detail |
-|---|---|
-| Source | LAPD Open Data - *Crime Data from 2020 to Present* |
-| File | `Crime_Data_from_2020_to_Present.csv` |
-| Rows | ~852,950 |
-| Date range | 2020-01-01 → 2023-12-04 |
+It comes from the LAPD open data portal (Crime Data from 2020 to Present). The CSV is included in this repo as `data.zip` (~42 MB compressed) so you don't need to download it separately.
 
-## Report Pages
+If you'd rather pull it fresh:
 
-### Page 1 - Executive Overview
-High-level KPIs and crime trends across the full dataset.
-- **Cards:** Total Crimes · Crimes YoY · Avg Crimes/Day · Top Weapon
-- **Charts:** Crimes per Year · Crimes per Month
-- **Slicers:** Year · Quarter
-- **Donut:** Part 1 vs Part 2 severity split
+- LAPD portal: https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8
+- Or run `py download_data.py` which fetches the same file.
 
-### Page 2 - Geographic & Operational
-Where crimes happen across LAPD divisions.
-- **Bar:** Crimes by LAPD Division
-- **Bar:** Crimes by Premise
-- **Heatmap:** Hour × Weekday matrix (conditional formatting)
-- **Slicer:** Year
+Rows run from 2020-01-01 to 2023-12-04, so 2023 is a partial year. The charts flag this where it matters.
 
-### Page 3 - Deep Dive
-Weapons, severity, victim descent, and reporting quality.
-- **Bar:** Top Weapons (cleaned - excludes unknowns)
-- **Area:** Severity over time (Part 1 vs Part 2)
-- **Donut:** Victim Descent
-- **Column:** Victim Age Bands
-- **Cards:** Avg Reporting Lag · Crimes Reported Late (>30 days)
+## What's in the report
 
-### Page 4 - Victim Demographics
-Who the victims are.
-- **Cards:** Total Crimes · Avg Victim Age · Victims with Known Age
-- **Bar:** Crimes by Victim Sex (M = Male, F = Female)
-- **Column:** Crimes by Victim Age Band
-- **Bar:** Crimes by Victim Descent
-- **Slicer:** Year
+7 pages, each focused on one angle so no single page tries to do everything:
 
-### Page 5 - Time Patterns
-When crimes happen.
-- **Cards:** Avg Crimes per Day · Avg Crimes per Month
-- **Column:** Crimes by Hour of Day (0–23)
-- **Bar:** Crimes by Day of Week
-- **Column:** Crimes by Month
-- **Slicer:** Year
+1. Executive overview - headline KPIs and yearly trends.
+2. Geographic and operational - crimes by LAPD division, premise, and an hour-by-weekday heatmap.
+3. Deep dive - weapons (with unknowns cleaned out), severity, victim descent, age bands, reporting lag.
+4. Victim demographics - sex, age band, descent.
+5. Time patterns - hour of day, day of week, monthly seasonality.
+6. Crime type breakdown - top crime types and the Part 1 vs Part 2 split.
+7. Status and investigation - case outcomes and arrest rates.
 
-### Page 6 - Crime Type Breakdown
-What types of crimes are being committed.
-- **Cards:** Total Crimes · Part 1 Crimes · Part 1 Share
-- **Bar:** Top Crime Types by Incident Count
-- **Donut:** Part 1 vs Part 2 Severity Split
-- **Slicers:** Year · LAPD Division
+Case status codes on page 7: IC = Investigation Continuing, AA = Adult Arrest, JA = Juvenile Arrest, AO = Adult Other, JO = Juvenile Other.
 
-### Page 7 - Status & Investigation
-Case outcomes and reporting quality.
-- **Cards:** Total Crimes · Still Under Investigation · Arrest Rate · Avg Reporting Lag
-- **Bar:** Crimes by Case Status (IC / AA / JA / AO / JO)
-- **Column:** Avg Reporting Lag by Year
-- **Donut:** Case Status Distribution
-- **Slicer:** Year
+## DAX measures
 
-> **Status codes:** IC = Investigation Continuing · AA = Adult Arrest · JA = Juvenile Arrest · AO = Adult Other · JO = Juvenile Other
+Full source is in `02_DAX_Measures.dax`. The ones I lean on most:
 
-## DAX Measures
+- `Total Crimes` - row count.
+- `Crimes YoY` / `Crimes YoY %` - year-over-year via SAMEPERIODLASTYEAR.
+- `Avg Crimes per Day` and `per Month`.
+- `Crimes 12M Rolling Avg`.
+- `Avg Reporting Lag (days)` and `Crimes Reported Late (>30d)` - I wanted to see how often crimes get reported well after they happen. Some of them lag by years.
+- `Arrest Rate` - share of crimes with status AA or JA.
+- `Part 1 Crimes` / `Part 1 Share` - serious (FBI index) crime count and share.
 
-| Measure | Description |
-|---|---|
-| `Total Crimes` | COUNTROWS of the crime table |
-| `Crimes YoY` / `Crimes YoY %` | Year-over-year delta using SAMEPERIODLASTYEAR |
-| `Avg Crimes per Day` | Total ÷ distinct days in context |
-| `Avg Crimes per Month` | AVERAGEX over YearMonth values |
-| `Top Weapon Name` | Most common weapon (unknowns excluded) |
-| `Crimes 12M Rolling Avg` | 12-month rolling average via DATESINPERIOD |
-| `Avg Reporting Lag (days)` | Average days between occurrence and report |
-| `Crimes Reported Late (>30d)` | Crimes with reporting lag > 30 days |
-| `Arrest Rate` | % of crimes resulting in adult or juvenile arrest |
-| `Crimes Under Investigation` | Crimes with status = IC |
-| `Part 1 Crimes` / `Part 1 Share` | Serious (FBI index) crime count and share |
-| `Peak Hour of Day` | Most common hour formatted as 12-hr clock |
-| `Busiest Weekday` | Weekday with the most crimes |
-| `Top Crime Description` | Most frequent crime description in context |
-| `Year Label` | Flags partial year on charts |
+## Power Query
 
-Full DAX source: [`02_DAX_Measures.dax`](02_DAX_Measures.dax)
+The cleaning is in `01_PowerQuery_M_Script.pq`. The dataset has a few quirks worth flagging:
 
-## Power Query Transformations
+- One header is corrupted (`FOLDING KNIFE` instead of `weapon_description`).
+- Dates are DD/MM/YYYY, which Power Query doesn't pick up by default.
+- "Unknown" shows up as `UNKONW` (typo from the source), `0`, or `X` depending on the column. I null those out.
+- A few columns are almost entirely empty (`crime_code_2`-`crime_code_4`, `cross_street`) so I drop them.
+- I add the columns I actually want for charts: year, month name, quarter, weekday, hour, `is_part_1`, `reporting_lag_days`, age bands, and descent labels.
 
-The `crime` table is loaded from the CSV via a multi-step M script ([`01_PowerQuery_M_Script.pq`](01_PowerQuery_M_Script.pq)) that:
+## How to open
 
-1. Loads the CSV with UTF-8 encoding
-2. Fixes a corrupted column header (`FOLDING KNIFE` → `weapon_description`)
-3. Splits `date_occurred` into date + time with en-GB locale (DD/MM/YYYY)
-4. Casts all columns to correct types
-5. Cleans misspelled `UNKONW` → null and proper-cases weapon descriptions
-6. Nulls out sentinel values (weapon_code = 0, victim_age = 0, victim_sex = "X")
-7. Adds derived columns: `year_occurred`, `month_name`, `quarter_occurred`, `weekday_name`, `weekday_number`, `hour_occurred`, `is_part_1`, `reporting_lag_days`, `victim_age_band`, `victim_descent_label`
-8. Removes mostly-null columns (crime_code_2–4, cross_street)
+1. Get the CSV - either extract `data.zip` or run `py download_data.py`.
+2. Put the CSV in the same folder as `L.A_Crime_Rate.pbip`.
+3. Open the pbip in Power BI Desktop.
 
-## How to Open
+If you keep the CSV somewhere else, the path is hardcoded in the `crime` query's `Source` step. Update it there.
 
-### Step 1 - Get the data file
-
-The source CSV is included in this repo as **`data.zip`** (42 MB compressed).
-
-1. Download `data.zip` from the repo
-2. Extract it — you will get `Crime_Data_from_2020_to_Present.csv`
-3. Place the CSV in the **same folder** as `L.A_Crime_Rate.pbip`
-
-> **Alternatively**, download the CSV directly from the LAPD Open Data portal:
-> [https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
-> Or run the included Python script which downloads and saves it automatically:
-> ```
-> py download_data.py
-> ```
-
-### Step 2 - Open the report
-
-1. Install [Power BI Desktop](https://powerbi.microsoft.com/desktop/)
-2. Open `L.A_Crime_Rate.pbip`
-3. Power BI will load the semantic model and all 7 report pages automatically
-
-> **Note:** The CSV path is hardcoded in Power Query. If you place the file somewhere other than the repo root, update it in Power Query Editor → `crime` query → step `Source`.
-
-## Project Structure
+## Files
 
 ```
-L.A Crime Rate/
-├── L.A_Crime_Rate.pbip                   # Power BI project entry point
-├── Crime_Data_from_2020_to_Present.csv   # Source data (LAPD open data)
-├── 01_PowerQuery_M_Script.pq             # Full Power Query M script
-├── 02_DAX_Measures.dax                   # All DAX measures (reference)
-├── validate_dataset.py                   # Python data validation script
-├── validate_pbir.py                      # Python PBIR structure validator
-├── L.A_Crime_Rate.Report/                # Report definition (PBIR format)
-│   └── definition/pages/                 # One folder per page
-└── L.A_Crime_Rate.SemanticModel/         # Semantic model (TMDL format)
-    └── definition/tables/                # crime, DimDate, _Measures
+L.A_Crime_Rate.pbip                   Power BI project entry point
+Crime_Data_from_2020_to_Present.csv   Source data (LAPD)
+01_PowerQuery_M_Script.pq             Power Query M
+02_DAX_Measures.dax                   DAX measures
+download_data.py                      Fetches the CSV from LAPD
+validate_dataset.py                   Sanity checks on the raw CSV
+validate_pbir.py                      Checks the PBIR structure
+L.A_Crime_Rate.Report/                Report definition (PBIR)
+L.A_Crime_Rate.SemanticModel/         Semantic model (TMDL)
 ```
