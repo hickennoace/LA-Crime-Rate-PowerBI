@@ -6,10 +6,9 @@ the whole thing up, and turns it into a 7-page interactive Power BI report you c
 around in.
 
 I didn't jump straight into Power BI though. Before I built a single visual I pulled the data into a
-Jupyter notebook and just *looked* at it with pandas and matplotlib - partly to understand the shape
-of the data, partly because it's a lot faster to throw a quick chart on screen and go "huh, that's
-weird" than it is to build a polished report and only then notice the problem. The charts further
-down this page are the real outputs from that exploration step.
+Jupyter notebook and just *looked* at it with pandas and matplotlib first - it's a lot faster to throw
+a quick chart on screen and go "huh, that's weird" than it is to build a polished report and only then
+notice the problem. That exploration is what told me which pages were worth building.
 
 ---
 
@@ -31,56 +30,9 @@ with exactly that kind of thing.
 
 ---
 
-## What I found poking around in Python first
-
-### Crime is heavily seasonal, and 2020 was clearly an outlier
-The first thing I plotted was incidents per month and per year. You can see the COVID dip in 2020
-and then crime climbing back up through 2021-2022.
-
-![Reported crimes per year](images/lacrime_c21_o1.png)
-
-*Crimes per year. 2023 looks like a cliff, but that's just because the data cuts off in December -
-it's a partial year, not a crime-fighting miracle.*
-
-When I broke it down to the month level the seasonality jumps out - a steady wave with summer peaks
-and a slump every winter.
-
-![Crime over time, monthly](images/lacrime_c33_o1.png)
-
-*Left: monthly incident count across the whole window. Right: the victim-age distribution (more on
-that below).*
-
-### Victims skew young-adult
-I expected a fairly flat age spread and got the opposite - a strong right-skewed hump centred on
-people in their late 20s to mid 30s.
-
-![Victim age distribution](images/lacrime_c25_o1.png)
-
-*This is also where the dirty data showed up: a giant spike at age 0 that turned out to be missing
-values dressed up as zeros. I null those out in Power Query so they don't poison the averages.*
-
-### A handful of crime types dominate
-Sorting the crime descriptions by average daily count, the top of the list is overwhelmingly vehicle
-theft, simple assault, burglary and theft from vehicles. The long tail of exotic crime types barely
-registers.
-
-![Top crime types](images/lacrime_c30_o1.png)
-
-### Crime has a daily rhythm too
-Incident counts by hour of day weren't smooth at all - there's a noticeable artificial spike at noon
-and midnight, because when nobody knows the exact time, it gets logged as 12:00. After cleaning that
-up the real pattern is what you'd expect: quiet in the early morning, busy in the evening.
-
-![Crimes by hour of day](images/lacrime_c47_o1.png)
-
-All of these became proper, filterable visuals once I moved into Power BI - but doing the rough
-version in pandas first is what told me *what* was worth building.
-
----
-
 ## The Power BI report (7 pages)
 
-Once the exploration told me what was in there, I built the actual report. Here are all seven pages.
+The report has seven pages. Here are all of them, with the headline numbers straight off each page.
 
 ### 1 - Executive Overview
 The "give me the headline" page. **853K total crimes, +32.6% year-over-year, 594.8 a day on average,
@@ -196,9 +148,8 @@ py download_data.py
 > If you put the CSV somewhere other than the project root, update the path in Power Query Editor →
 > `crime` query → `Source` step.
 
-**3. (Optional) Re-run the exploration.** The pandas/matplotlib notebook lives over in
-`../../All course files/Python Section/LA Crime Project.ipynb` - that's where every chart on this page
-came from.
+**3. (Optional) See the exploration.** The pandas/matplotlib notebook I used to first poke at the data
+lives over in `../../All course files/Python Section/LA Crime Project.ipynb`.
 
 ---
 
@@ -212,7 +163,7 @@ L.A Crime Rate/
 ├── 02_DAX_Measures.dax                   # every measure (reference)
 ├── validate_dataset.py                   # sanity-checks the raw data
 ├── validate_pbir.py                      # sanity-checks the report structure
-├── images/                               # report page screenshots + the pandas exploration charts
+├── images/                               # the 7 report page screenshots
 ├── L.A_Crime_Rate.Report/                # the report definition (PBIR)
 └── L.A_Crime_Rate.SemanticModel/         # the data model (TMDL)
 ```
