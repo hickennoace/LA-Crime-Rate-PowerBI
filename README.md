@@ -1,4 +1,4 @@
-# L.A. Crime Rate — Power BI Report
+# L.A. Crime Rate - Power BI Report
 
 This is a project I built to get my hands dirty with a genuinely messy, real-world dataset. It takes
 **852,950 crime incidents reported to the LAPD** between January 2020 and early December 2023, cleans
@@ -6,7 +6,7 @@ the whole thing up, and turns it into a 7-page interactive Power BI report you c
 around in.
 
 I didn't jump straight into Power BI though. Before I built a single visual I pulled the data into a
-Jupyter notebook and just *looked* at it with pandas and matplotlib — partly to understand the shape
+Jupyter notebook and just *looked* at it with pandas and matplotlib - partly to understand the shape
 of the data, partly because it's a lot faster to throw a quick chart on screen and go "huh, that's
 weird" than it is to build a polished report and only then notice the problem. The charts further
 down this page are the real outputs from that exploration step.
@@ -17,7 +17,7 @@ down this page are the real outputs from that exploration step.
 
 | | |
 |---|---|
-| **Source** | LAPD Open Data — *Crime Data from 2020 to Present* |
+| **Source** | LAPD Open Data - *Crime Data from 2020 to Present* |
 | **File** | `Crime_Data_from_2020_to_Present.csv` |
 | **Rows** | ~852,950 reported incidents |
 | **Date range** | 2020-01-01 → 2023-12-04 *(2023 is a partial year, so don't read the dip at the end as "crime went down")* |
@@ -35,14 +35,14 @@ with exactly that kind of thing.
 
 ### Crime is heavily seasonal, and 2020 was clearly an outlier
 The first thing I plotted was incidents per month and per year. You can see the COVID dip in 2020
-and then crime climbing back up through 2021–2022.
+and then crime climbing back up through 2021-2022.
 
 ![Reported crimes per year](images/lacrime_c21_o1.png)
 
-*Crimes per year. 2023 looks like a cliff, but that's just because the data cuts off in December —
+*Crimes per year. 2023 looks like a cliff, but that's just because the data cuts off in December -
 it's a partial year, not a crime-fighting miracle.*
 
-When I broke it down to the month level the seasonality jumps out — a steady wave with summer peaks
+When I broke it down to the month level the seasonality jumps out - a steady wave with summer peaks
 and a slump every winter.
 
 ![Crime over time, monthly](images/lacrime_c33_o1.png)
@@ -51,7 +51,7 @@ and a slump every winter.
 that below).*
 
 ### Victims skew young-adult
-I expected a fairly flat age spread and got the opposite — a strong right-skewed hump centred on
+I expected a fairly flat age spread and got the opposite - a strong right-skewed hump centred on
 people in their late 20s to mid 30s.
 
 ![Victim age distribution](images/lacrime_c25_o1.png)
@@ -67,13 +67,13 @@ registers.
 ![Top crime types](images/lacrime_c30_o1.png)
 
 ### Crime has a daily rhythm too
-Incident counts by hour of day weren't smooth at all — there's a noticeable artificial spike at noon
+Incident counts by hour of day weren't smooth at all - there's a noticeable artificial spike at noon
 and midnight, because when nobody knows the exact time, it gets logged as 12:00. After cleaning that
 up the real pattern is what you'd expect: quiet in the early morning, busy in the evening.
 
 ![Crimes by hour of day](images/lacrime_c47_o1.png)
 
-All of these became proper, filterable visuals once I moved into Power BI — but doing the rough
+All of these became proper, filterable visuals once I moved into Power BI - but doing the rough
 version in pandas first is what told me *what* was worth building.
 
 ---
@@ -82,7 +82,7 @@ version in pandas first is what told me *what* was worth building.
 
 Once the exploration told me what was in there, I built the actual report. Here are all seven pages.
 
-### 1 — Executive Overview
+### 1 - Executive Overview
 The "give me the headline" page. **853K total crimes, +32.6% year-over-year, 594.8 a day on average,
 and "Hand Gun" as the top weapon.** The monthly-crimes line sits next to a 12-month rolling average so
 the seasonal noise doesn't drown out the trend, and the donut splits the dataset into 58.7% Part 2 vs
@@ -90,7 +90,7 @@ the seasonal noise doesn't drown out the trend, and the donut splits the dataset
 
 ![Executive Overview page](images/page1-overview.png)
 
-### 2 — Geographic & Operational
+### 2 - Geographic & Operational
 Where things happen. Crimes by LAPD division (Central, 77th Street and Pacific lead), the top premise
 types (the **street** is #1 by a mile, then single-family and multi-unit homes), and an hour × weekday
 heatmap with conditional formatting so the busy cells light up. You can already see the late-evening
@@ -98,36 +98,36 @@ columns glowing.
 
 ![Geographic & Operational page](images/page2-geographic.png)
 
-### 3 — Deep Dive
-Weapons, severity, victim descent and — the part I'm weirdly proud of — reporting quality. The
+### 3 - Deep Dive
+Weapons, severity, victim descent and - the part I'm weirdly proud of - reporting quality. The
 severity area chart tracks Part 1 vs Part 2 over time, the descent donut shows victims are **40%
 Hispanic/Latin**, and two cards quantify reporting quality: **average reporting lag of 10.7 days** and
 **48K crimes reported more than 30 days late.**
 
 ![Deep Dive page](images/page3-deep-dive.png)
 
-### 4 — Victim Demographics
+### 4 - Victim Demographics
 Who the victims are. **Average victim age 39.6, with 641K victims who have a known age.** Breakdowns
 by sex (more male than female victims), the age-band column chart (that late-20s-to-40s hump from my
 exploration, now filterable), and descent.
 
 ![Victim Demographics page](images/page4-victim-demographics.png)
 
-### 5 — Time Patterns
+### 5 - Time Patterns
 The "when" page. **642.3 crimes a day, ~20K a month.** The hour-of-day chart is the cleaned-up version
-of the one from my exploration — you can still see the reporting-artifact spike at noon, but the real
-story is the quiet 3–5am trough and the busy evenings. Day-of-week shows **Friday** as the worst day.
+of the one from my exploration - you can still see the reporting-artifact spike at noon, but the real
+story is the quiet 3-5am trough and the busy evenings. Day-of-week shows **Friday** as the worst day.
 
 ![Time Patterns page](images/page5-time-patterns.png)
 
-### 6 — Crime Type Breakdown
-The "what" page. **501K of the 853K crimes are Part 1 (serious) — a 58.7% share.** The ranked bar
+### 6 - Crime Type Breakdown
+The "what" page. **501K of the 853K crimes are Part 1 (serious) - a 58.7% share.** The ranked bar
 chart makes the top offenders obvious: **vehicle theft** runs away with it, followed by simple-assault
 battery, identity theft and burglary from a vehicle. Sliceable by year and LAPD division.
 
 ![Crime Type Breakdown page](images/page6-crime-types.png)
 
-### 7 — Status & Investigation
+### 7 - Status & Investigation
 Case outcomes, and honestly the most sobering page. **683K crimes (about 80%) are still under
 investigation, and the arrest rate is just 9.0%.** The one bit of good news: average reporting lag has
 fallen every year, from ~17 days in 2020 down to ~5 in 2023.
@@ -146,7 +146,7 @@ Everything is driven by explicit measures (full source in
 
 | Measure | What it actually does |
 |---|---|
-| `Total Crimes` | `COUNTROWS` of the crime table — the backbone of nearly every visual |
+| `Total Crimes` | `COUNTROWS` of the crime table - the backbone of nearly every visual |
 | `Crimes YoY` / `Crimes YoY %` | year-over-year change using `SAMEPERIODLASTYEAR` |
 | `Avg Crimes per Day` | total ÷ distinct days in the current filter context |
 | `Avg Crimes per Month` | `AVERAGEX` over the YearMonth values |
@@ -170,18 +170,18 @@ The short version of what it has to fix:
 3. Split `date_occurred` into a date and a time, parsed with an **en-GB** locale (it's DD/MM/YYYY).
 4. Cast every column to a sane type.
 5. Fix the misspelled `UNKONW` → null and proper-case the weapon text.
-6. Null out the sentinel values — weapon code `0`, victim age `0`, victim sex `X`.
+6. Null out the sentinel values - weapon code `0`, victim age `0`, victim sex `X`.
 7. Add the derived columns the report needs: `year_occurred`, `month_name`, `quarter_occurred`,
    `weekday_name`, `weekday_number`, `hour_occurred`, `is_part_1`, `reporting_lag_days`,
    `victim_age_band`, `victim_descent_label`.
-8. Drop the columns that are almost entirely null (crime codes 2–4, cross street).
+8. Drop the columns that are almost entirely null (crime codes 2-4, cross street).
 
 ---
 
 ## How to open it yourself
 
 **1. Get the data file.** The source CSV is included here as **`data.zip`** (~42 MB compressed).
-Extract it and you'll get `Crime_Data_from_2020_to_Present.csv` — drop that in the **same folder** as
+Extract it and you'll get `Crime_Data_from_2020_to_Present.csv` - drop that in the **same folder** as
 `L.A_Crime_Rate.pbip`.
 
 You can also grab it straight from the [LAPD portal](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8),
@@ -197,7 +197,7 @@ py download_data.py
 > `crime` query → `Source` step.
 
 **3. (Optional) Re-run the exploration.** The pandas/matplotlib notebook lives over in
-`../../All course files/Python Section/LA Crime Project.ipynb` — that's where every chart on this page
+`../../All course files/Python Section/LA Crime Project.ipynb` - that's where every chart on this page
 came from.
 
 ---
@@ -220,5 +220,5 @@ L.A Crime Rate/
 ---
 
 *Built with Power BI Desktop + a pandas/matplotlib notebook for the exploration. Data is public LAPD
-open data — every incident here is a real reported crime, so treat the demographic charts with the
+open data - every incident here is a real reported crime, so treat the demographic charts with the
 seriousness they deserve.*
